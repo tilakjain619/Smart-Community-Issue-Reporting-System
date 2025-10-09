@@ -67,6 +67,16 @@ const getAllIssues = async (req, res) => {
     }
 }
 
+const getUsersIssues = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const issues = await Issue.find({ userId }).sort({ createdAt: -1 });
+        res.status(200).json(issues);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 const getIssues = async (req, res) => {
     try {
     const {
@@ -164,4 +174,4 @@ const searchIssues = async (req, res) => {
     }
 }
 
-module.exports = { createIssue, getIssues, updateIssueStatus, deleteIssue, getAllIssues, searchIssues };
+module.exports = { createIssue, getIssues, updateIssueStatus, deleteIssue, getAllIssues, searchIssues, getUsersIssues };

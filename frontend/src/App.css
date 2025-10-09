@@ -12,7 +12,3 @@ body{
 /* *{
   border: 1px solid red !important;
 } */
-
-a, button{
-    display: block;
-}

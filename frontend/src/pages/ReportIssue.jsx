@@ -5,10 +5,11 @@ import { createIssue, testAuth } from '../api/Issues';
 
 const ReportIssue = () => {
     const [fileName, setFileName] = useState('No file chosen');
+    const [loading, setLoading] = useState(false);
     const { getToken, isSignedIn } = useAuth();
     console.log(getToken());
-    
-    
+
+
 
     const [file, setFile] = useState(null);
     const [formData, setFormData] = useState({
@@ -25,10 +26,11 @@ const ReportIssue = () => {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        
+
         try {
+            setLoading(true);
             const token = await getToken();
-            
+
             if (!token) {
                 console.error('No token found - user not authenticated');
                 alert('Please sign in to report an issue');
@@ -61,13 +63,12 @@ const ReportIssue = () => {
                         }
                     );
                 } else {
-                    reject(new Error("Geolocation is not supported by this browser"));
+                    alert("Location permission is required to report an issue.");
                 }
             });
-
             console.log('Uploading image...');
             const imageData = await uploadImage(file, token);
-            
+
             console.log('Creating issue...');
             const issueData = {
                 userMessage: formData.userMessage,
@@ -76,24 +77,32 @@ const ReportIssue = () => {
             };
 
             await createIssue(issueData, token);
-            
+
             // Clear form
             setFormData({ userMessage: '', coordinates: null, imageUrl: null });
             setFile(null);
             setFileName('No file chosen');
-            
+
             alert("Issue reported successfully!");
 
         } catch (error) {
             console.error("Error reporting issue:", error);
             alert("Failed to report issue: " + (error.response?.data?.error || error.message));
         }
+        finally {
+            setLoading(false);
+        }
     };
 
     return (
         <div className="max-w-3xl mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4 text-gray-700">Report Issue</h1>
-            
+            <ol className="mb-6 list-decimal pl-6 text-gray-700">
+                <li>Tap <strong>Choose File</strong> and pick a photo of the problem from your phone.</li>
+                <li>(Optional) Write a few words to explain what’s wrong.</li>
+                <li>Tap <strong>Submit Report</strong> to send it.</li>
+            </ol>
+
             <SignedOut>
                 <div className="text-center py-12">
                     <p className="mb-4 text-gray-600">Please sign in to report an issue</p>
@@ -139,10 +148,13 @@ const ReportIssue = () => {
                     />
                     <button
                         type="submit"
-                        className="bg-yellowOrange text-white px-6 py-3 rounded-full hover:opacity-80 transition-opacity"
+                        className="bg-yellowOrange cursor-pointer text-white px-6 py-3 rounded-full hover:opacity-80 transition-opacity"
                     >
-                        Submit Report
+                        {loading ? 'Reporting...' : 'Submit Report'}
                     </button>
+                    {
+                        loading && <p className="text-gray-600 mt-2">Please wait, this might take few seconds...</p>
+                    }
                 </form>
             </SignedIn>
         </div>
