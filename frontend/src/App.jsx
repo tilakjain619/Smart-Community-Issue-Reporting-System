@@ -5,6 +5,7 @@ import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from '@clerk/c
 import Navbar from './components/Navbar'
 import Dashboard from './pages/Dashboard'
 import ReportIssue from './pages/ReportIssue'
+import CommunityFeed from './pages/CommunityFeed'
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/report" element={<ReportIssue/>} />
         <Route path="/about" element={<h1 className='text-3xl font-bold underline'>About Page</h1>} />
+        <Route path="/community" element={<CommunityFeed />} />
       </Routes>
     </BrowserRouter>
   )

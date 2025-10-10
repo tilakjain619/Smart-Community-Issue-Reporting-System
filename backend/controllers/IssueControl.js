@@ -5,38 +5,28 @@ const getLocation = require('../utils/getLocation');
 // Create a new issue
 const createIssue = async (req, res) => {
     try {
-        console.log('📝 Create issue request received');
-        console.log('Auth user:', req.auth?.userId || 'No auth');
-        console.log('Request body:', req.body);
-        
         const { userMessage, coordinates, imageUrl } = req.body;
         const userId = req.auth?.userId;
         
         if (!userId) {
-            console.log('❌ No user ID found in auth');
+            console.log('No user ID found in auth');
             return res.status(401).json({ error: 'Authentication required' });
         }
         
         if (!coordinates || !coordinates.latitude || !coordinates.longitude) {
-            console.log('❌ Invalid coordinates:', coordinates);
+            console.log('Invalid coordinates:', coordinates);
             return res.status(400).json({ error: 'Valid location is required' });
         }
         
         if(!imageUrl){
-            console.log('❌ No image URL provided');
+            console.log('No image URL provided');
             return res.status(400).json({ error: 'Image is required' });
         }
         
-        console.log('🔍 Starting image analysis...');
         // Analyze image to get category and title via AI
         const analysis = await analyzeImage(imageUrl);
-        console.log('🔍 Image analysis result:', analysis);
-
-        console.log('📍 Getting location info...');
         // Get city and state from coordinates
         const { city, state } = await getLocation(coordinates.latitude, coordinates.longitude);
-        console.log('📍 Location result:', { city, state });
-        
         console.log('💾 Creating issue in database...');
         const newIssue = await Issue.create({
             userId,
@@ -49,11 +39,9 @@ const createIssue = async (req, res) => {
             imageUrl: imageUrl || ''
         });
 
-        console.log('✅ Issue created successfully:', newIssue._id);
         res.status(201).json(newIssue);
     } catch (error) {
-        console.error('❌ Error creating issue:', error.message);
-        console.error('❌ Full error:', error);
+        console.error('Error creating issue:', error.message);
         res.status(500).json({ error: error.message });
     }
 }
