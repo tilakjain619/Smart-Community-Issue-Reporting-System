@@ -12,13 +12,13 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@clerk/express": "^1.7.37",
     "cloudinary": "^2.7.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "express-fileupload": "^1.5.2",
     "mongoose": "^8.19.0",
+    "node-appwrite": "^20.2.1",
     "nodemon": "^3.1.10"
   },
   "type": "commonjs"

@@ -5,8 +5,12 @@ const getLocation = require('../utils/getLocation');
 // Create a new issue
 const createIssue = async (req, res) => {
     try {
-        const { userMessage, coordinates, imageUrl } = req.body;
-        const userId = req.auth?.userId;
+        console.log('📝 Create issue request received');
+        console.log('Request body:', req.body);
+        
+        const { userId, userMessage, coordinates, imageUrl } = req.body;
+
+        console.log("userId:", userId);
         
         if (!userId) {
             console.log('No user ID found in auth');
@@ -58,7 +62,14 @@ const getAllIssues = async (req, res) => {
 const getUsersIssues = async (req, res) => {
     try {
         const { userId } = req.params;
+        if (!userId) {
+            return res.status(400).json({ error: 'User ID is required' });
+        }
+        
         const issues = await Issue.find({ userId }).sort({ createdAt: -1 });
+        if (!issues || issues.length === 0) {
+            return res.status(404).json({ message: 'No issues found for this user' });
+        }
         res.status(200).json(issues);
     } catch (error) {
         res.status(500).json({ error: error.message });

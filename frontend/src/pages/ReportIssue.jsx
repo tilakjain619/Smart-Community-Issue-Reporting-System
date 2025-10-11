@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import uploadImage from '../utils/uploadImage';
-import { useAuth, SignedIn, SignedOut, SignInButton } from '@clerk/clerk-react';
+import { useAuth } from '../contexts/AuthContext';
+import { SignedIn, SignedOut, SignInButton } from '../components/AuthComponents';
 import { createIssue, testAuth } from '../api/Issues';
 
 const ReportIssue = () => {
     const [fileName, setFileName] = useState('No file chosen');
     const [loading, setLoading] = useState(false);
-    const { getToken, isSignedIn } = useAuth();
-    console.log(getToken());
-
+    const { getToken, isSignedIn, user } = useAuth();
 
 
     const [file, setFile] = useState(null);
@@ -75,8 +74,8 @@ const ReportIssue = () => {
                 coordinates,
                 imageUrl: imageData.url,
             };
-
-            await createIssue(issueData, token);
+            const userId = user.$id;
+            await createIssue(issueData, token, userId);
 
             // Clear form
             setFormData({ userMessage: '', coordinates: null, imageUrl: null });
@@ -107,9 +106,9 @@ const ReportIssue = () => {
                 <div className="text-center py-12">
                     <p className="mb-4 text-gray-600">Please sign in to report an issue</p>
                     <SignInButton mode="modal">
-                        <button className="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition">
+                        <span className="bg-yellowOrange text-white px-6 py-3 rounded-full hover:bg-amber-500 transition inline-block cursor-pointer">
                             Sign In
-                        </button>
+                        </span>
                     </SignInButton>
                 </div>
             </SignedOut>

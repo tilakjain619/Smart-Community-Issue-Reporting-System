@@ -3,7 +3,7 @@ const fileUpload = require('express-fileupload');
 const router = express.Router();
 const cloudinary = require('cloudinary');
 const fs = require('fs');
-const { requireAuth } = require('@clerk/express');
+const { requireAuth } = require('../middleware/auth');
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,

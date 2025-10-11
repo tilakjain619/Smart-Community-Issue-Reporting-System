@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { SignedIn, SignOutButton, UserButton, SignedOut, SignInButton, useUser } from '@clerk/clerk-react'
+import { SignedIn, SignedOut, SignInButton, UserButton, SignOutButton } from '../components/AuthComponents'
+import { useAuth } from '../contexts/AuthContext'
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { user } = useUser();
+    const { user } = useAuth();
 
     return (
-        <nav className="bg-yellowOrange z-10 px-2 py-4 text-white">
+        <nav className="bg-white z-10 px-2 py-4 text-gray-900 shadow-xs">
             <div className="container mx-auto flex justify-between items-center">
-                <Link to={user ? '/dashboard' : '/'} className='cursor-pointer w-3/6 sm:w-1/6 h-10 object-cover'><img className='object-cover -ml-6 w-full h-full' src="/light_mode_logo.png" alt="Logo" /></Link>
+                <Link to={user ? '/dashboard' : '/'} className='cursor-pointer w-2/6 sm:w-1/12 h-10'><img className=' object-contain w-full h-full' src="/light_mode_logo.png" alt="Logo" /></Link>
                 <button
                     className="flex md:hidden cursor-pointer items-center px-2"
                     onClick={() => setIsOpen(!isOpen)}
@@ -33,7 +34,7 @@ const Navbar = () => {
                         />
                     </svg>
                 </button>
-                <div className={`flex-col md:flex-row ${isOpen ? 'flex' : 'hidden'} md:flex gap-3 items-center md:static absolute top-16 left-0 w-full bg-yellowOrange md:bg-transparent md:w-auto z-10`}>
+                <div className={`flex-col bg-[#ffffff88] backdrop-blur-md md:backdrop-blur-none z-20 md:flex-row ${isOpen ? 'flex' : 'hidden'} md:flex gap-3 items-center md:static absolute top-16 left-0 w-full md:bg-transparent md:w-auto z-10`}>
                     <Link to={user ? '/dashboard' : '/'} className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>{user ? 'Dashboard' : 'Home'}</Link>
                     <Link to="/community" className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>Community Feed</Link>
                     <Link to="/report" className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>Report Issue</Link>

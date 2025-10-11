@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom'
 import { getUsersIssues } from '../api/Issues'
-import { useState, useEffect, use } from 'react'
-import { useAuth, useUser } from '@clerk/clerk-react'
+import { useState, useEffect } from 'react'
+import { useAuth } from '../contexts/AuthContext';
+import { SignedIn, SignedOut, SignInButton } from '../components/AuthComponents';
 import IssuePopup from '../components/issuePopup'
 import Loader from '../components/extras/Loader'
 import MapUI from '../components/MapUI'
 
 const Dashboard = () => {
   const [userIssues, setUserIssues] = useState([])
-  const { user } = useUser();
-  const { getToken } = useAuth();
+  const { user, getToken, loading: authLoading } = useAuth();
   const [loading, setLoading] = useState(false);
   const [showIssuePopup, setShowIssuePopup] = useState(false);
   const [currentIssue, setCurrentIssue] = useState(null);
@@ -18,13 +18,16 @@ const Dashboard = () => {
     setCurrentIssue(issue);
     setShowIssuePopup(true);
   }
+  
   const fetchUserIssues = async () => {
-    const token = await getToken();
-    const userId = user.id;
-
+    if (!user) return;
+    
+    
     try {
       setLoading(true);
-      const issues = await getUsersIssues(userId, token)
+      const token = await getToken();
+      const userId = user.$id; // according to Appwrite user ID format
+      const issues = await getUsersIssues(token, userId)
       setUserIssues(issues);
     } catch (error) {
       console.error("Error fetching user issues:", error)
@@ -34,17 +37,32 @@ const Dashboard = () => {
     }
   }
   useEffect(() => {
-    fetchUserIssues();
-  }, [])
+    if (user) {
+      fetchUserIssues();
+    }
+  }, [user])
 
   return (
     <div className="relative">
-      {
-        loading ? (
-          <div className="flex justify-center items-center h-screen">
-            <Loader />
-          </div>
-        ) : (
+      <SignedOut>
+        <div className="max-w-4xl mx-auto p-4 text-center">
+          <h1 className="text-2xl font-bold mb-4 text-zinc-800">Access Your Dashboard</h1>
+          <p className="mb-4 text-gray-600">Please sign in to view your reported issues and dashboard.</p>
+          <SignInButton>
+            <button className="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition">
+              Sign In
+            </button>
+          </SignInButton>
+        </div>
+      </SignedOut>
+
+      <SignedIn>
+        {
+          loading || authLoading ? (
+            <div className="flex justify-center items-center h-screen">
+              <Loader />
+            </div>
+          ) : (
           <div
             className={`max-w-4xl mx-auto p-4 transition-opacity duration-300 ${showIssuePopup ? 'opacity-40 blur-sm pointer-events-none' : 'opacity-100'
               }`}
@@ -111,16 +129,16 @@ const Dashboard = () => {
               </Link>
             </div>
           </div>
-        )
-      }
+        )}
 
-      {
-        showIssuePopup && (
-          <div className="absolute inset-0 flex items-center justify-center z-10">
-            <IssuePopup issue={currentIssue} setShowIssuePopup={setShowIssuePopup} />
-          </div>
-        )
-      }
+        {
+          showIssuePopup && (
+            <div className="absolute inset-0 flex items-center justify-center z-10">
+              <IssuePopup issue={currentIssue} setShowIssuePopup={setShowIssuePopup} />
+            </div>
+          )
+        }
+      </SignedIn>
     </div>
   )
 }

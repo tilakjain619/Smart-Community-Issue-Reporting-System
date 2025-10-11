@@ -1,5 +1,4 @@
 import axios from "axios";
-
 const BASE_API_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const testAuth = async (token) => {
@@ -19,16 +18,17 @@ export const testAuth = async (token) => {
     }
 };
 
-export const createIssue = async (newIssue, token) => {
+export const createIssue = async (newIssue, token, userId) => {
     try {
         console.log('Sending request to:', `${BASE_API_URL}/api/issues`);
         console.log('Request data:', newIssue);
         console.log('Token:', token ? 'Present' : 'Missing');
-        
-        const res = await axios.post(`${BASE_API_URL}/api/issues`, newIssue, {
+
+        const payload = { ...newIssue, user: userId, userId: userId }; // Add userId to payload
+        const res = await axios.post(`${BASE_API_URL}/api/issues`, payload, {
             headers: { 
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json'
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
             }
         });
         console.log("Issue created:", res.data);
@@ -39,9 +39,9 @@ export const createIssue = async (newIssue, token) => {
         throw error;
     }
 };
-export const getUsersIssues = async (userId, token) => {
+export const getUsersIssues = async (token, userId) => {
     try {
-        const res = await axios.get(`${BASE_API_URL}/api/users/${userId}/issues`, {
+        const res = await axios.get(`${BASE_API_URL}/api/user/${userId}/issues`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json'
