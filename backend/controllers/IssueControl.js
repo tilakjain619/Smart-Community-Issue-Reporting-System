@@ -172,5 +172,30 @@ const searchIssues = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+const voteIssue = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const issue = await Issue.findById(id);
+        if (!issue) {
+            return res.status(404).json({ error: 'Issue not found' });
+        }
+        if (!issue.voters) issue.voters = [];
+        const userId = req.body.userId;
+        if (!userId) {
+            return res.status(400).json({ error: 'User ID is required to vote' });
+        }
+        if (issue.voters.includes(userId)) {
+            issue.votes = Math.max(0, issue.votes - 1);
+            issue.voters = issue.voters.filter(voter => voter !== userId);
+        } else {
+            issue.votes = (issue.votes || 0) + 1;
+            issue.voters.push(userId);
+        }
+        await issue.save();
+        res.status(200).json(issue);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
 
-module.exports = { createIssue, getIssues, updateIssueStatus, deleteIssue, getAllIssues, searchIssues, getUsersIssues };
+module.exports = { createIssue, getIssues, updateIssueStatus, deleteIssue, getAllIssues, searchIssues, getUsersIssues, voteIssue };

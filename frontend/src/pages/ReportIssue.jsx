@@ -97,7 +97,7 @@ const ReportIssue = () => {
         <div className="max-w-3xl mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4 text-gray-700">Report Issue</h1>
             <ol className="mb-6 list-decimal pl-6 text-gray-700">
-                <li>Tap <strong>Choose File</strong> and pick a photo of the problem from your phone.</li>
+                <li>Tap <strong>Take Photo</strong> and capture a photo of the problem using your camera.</li>
                 <li>(Optional) Write a few words to explain what’s wrong.</li>
                 <li>Tap <strong>Submit Report</strong> to send it.</li>
             </ol>
@@ -116,24 +116,33 @@ const ReportIssue = () => {
             <SignedIn>
                 <form onSubmit={handleFormSubmit}>
                     <div className="mb-4">
-                        <label htmlFor="file-upload" className="block text-sm font-medium text-gray-700 mb-1">
-                            Upload Photo
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Take Photo
                         </label>
-                        <div className="flex items-center gap-4">
-                            <label
-                                htmlFor="file-upload"
-                                className="cursor-pointer bg-gray-100 px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-200 transition"
-                            >
-                                Choose File
-                            </label>
+                        <div className="flex flex-col gap-4">
                             <input
                                 accept="image/*"
                                 type="file"
-                                id="file-upload"
-                                className="hidden"
+                                capture="environment"
+                                id="camera-upload"
+                                className="block"
+                                style={{ display: 'none' }}
                                 onChange={handleFileChange}
                             />
+                            <label
+                                htmlFor="camera-upload"
+                                className="cursor-pointer bg-gray-100 px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-200 transition w-fit"
+                            >
+                                Take Photo
+                            </label>
                             <span id="file-name" className="text-gray-600 line-clamp-1 text-sm">{fileName}</span>
+                            {file && (
+                                <img
+                                    src={URL.createObjectURL(file)}
+                                    alt="Preview"
+                                    className="max-h-48 rounded-md border border-gray-200"
+                                />
+                            )}
                         </div>
                     </div>
                     <label htmlFor="issue-description" className="block text-sm font-medium text-gray-700 mb-1">

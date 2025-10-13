@@ -2,9 +2,9 @@
   "name": "send-email-function",
   "version": "1.0.0",
   "description": "Appwrite Function to send emails via Mailjet",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node main.js"
   },
   "dependencies": {
     "axios": "^1.12.2"

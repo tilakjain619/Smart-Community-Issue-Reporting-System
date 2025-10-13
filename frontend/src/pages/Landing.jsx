@@ -33,7 +33,8 @@ export default function Landing() {
       statusColor: "bg-blue-500",
       votes: 42,
       time: "2h ago",
-      size: "large"
+      size: "large",
+      imageUrl: "https://res.cloudinary.com/da3wjnlzg/image/upload/v1759934831/JagrukImageContainer/vsgmbboktdap1v5elbls.jpg"
     },
     {
       title: "Pothole on Highway",
@@ -122,7 +123,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <div className="inline-flex items-center gap-2 bg-white/60 backdrop-blur-sm border border-gray-200/50 rounded-full px-4 py-2 mb-8 shadow-sm">
               <Sparkles className="w-4 h-4 text-[#ff9a47]" />
-              <span className="text-sm text-gray-700">Empowering 50,000+ citizens</span>
+              <span className="text-sm text-gray-700">Empowering Citizens</span>
             </div>
 
             <h1
@@ -249,11 +250,11 @@ export default function Landing() {
                   key={index}
                   className={`${sizeClass} group cursor-pointer`}
                 >
-                  <div className="relative h-full bg-white/70 backdrop-blur-xl border border-gray-200/50 rounded-3xl p-6 hover:bg-white/90 hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                  <div className={`relative h-full bg-white/70 backdrop-blur-xl border border-gray-200/50 rounded-3xl p-6 hover:bg-white/90 hover:shadow-2xl transition-all duration-500 overflow-hidden`}>
                     {/* Gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#ff9a47]/0 to-[#ff9a47]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    
-                    <div className="relative h-full flex flex-col justify-between">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#ff9a47]/0 to-[#ff9a47]/7 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                    <div className={`relative h-full flex flex-col justify-between ${issue.imageUrl ? 'bg-cover bg-center rounded-2xl p-4' : ''}`} style={issue.imageUrl ? { backgroundImage: `url(${issue.imageUrl})` } : {}}>
                       <div>
                         <div className="flex items-start justify-between mb-4">
                           <Badge className={`${issue.statusColor} text-white border-0 shadow-lg`}>
@@ -262,7 +263,7 @@ export default function Landing() {
                           <span className="text-xs text-gray-500">{issue.time}</span>
                         </div>
                         
-                        <h3 className="text-lg font-semibold text-gray-900 mb-3 group-hover:text-[#ff9a47] transition-colors">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-3 group-hover:text-[#ff9a47] group-hover:text-shadow-zinc-950 transition-colors">
                           {issue.title}
                         </h3>
                         

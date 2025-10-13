@@ -83,7 +83,7 @@ export const SignOutButton = ({ children, style, className = '' }) => {
         <button
             onClick={logout}
             style={style}
-            className={`text-white cursor-pointer hover:bg-blue-700 px-3 py-2 rounded ${className}`}
+            className={`text-zinc-800 hover:opacity-70 cursor-pointer ${className}`}
         >
             {children || 'Sign Out'}
         </button>
