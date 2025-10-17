@@ -54,3 +54,18 @@ export const getUsersIssues = async (token, userId) => {
         throw error;
     }
 };
+export const getAllIssues = async (token) => {
+    try {
+        const res = await axios.get(`${BASE_API_URL}/api/issues/all`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        return res.data;
+    } catch (error) {
+        console.error("Error fetching all issues:", error.response?.data || error.message);
+        console.error("Full error:", error);
+        throw error;
+    }
+};
