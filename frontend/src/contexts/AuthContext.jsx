@@ -31,6 +31,7 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+
     const login = async (email, password) => {
         try {
             await account.createEmailPasswordSession(email, password);
@@ -74,6 +75,15 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const isAdmin = () => {
+        try {
+            return user && user.labels && user.labels.includes('admin');
+        } catch (error) {
+            console.error('Failed to check admin status:', error);
+            return false;
+        }
+    }
+
     const value = {
         user,
         loading,
@@ -82,7 +92,8 @@ export const AuthProvider = ({ children }) => {
         logout,
         getToken,
         isSignedIn: !!user,
-        checkUser
+        checkUser,
+        isAdmin
     };
 
     return (

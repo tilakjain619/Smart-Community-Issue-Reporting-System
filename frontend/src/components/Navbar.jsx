@@ -5,10 +5,11 @@ import { useAuth } from '../contexts/AuthContext'
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { user } = useAuth();
+    const { user, isAdmin } = useAuth();
+    const admin = isAdmin();
 
     return (
-        <nav className="bg-white z-10 px-2 py-4 text-gray-900 shadow-xs">
+        <nav className="bg-white z-40 px-2 py-4 text-gray-900 shadow-xs">
             <div className="container mx-auto flex justify-between items-center">
                 <Link to={user ? '/dashboard' : '/'} className='cursor-pointer w-2/6 sm:w-1/12 h-10'><img className=' object-contain w-full h-full' src="/light_mode_logo.png" alt="Logo" /></Link>
                 <button
@@ -38,6 +39,9 @@ const Navbar = () => {
                     <Link to={user ? '/dashboard' : '/'} className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>{user ? 'Dashboard' : 'Home'}</Link>
                     <Link to="/community" className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>Community Feed</Link>
                     <Link to="/report" className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>Report Issue</Link>
+                    {admin && (
+                        <Link to="/admin" className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>Admin Panel</Link>
+                    )}
                     {/* User section */}
                     <div className="hidden md:flex items-center px-1 py-2 md:py-0">
                         <SignedIn>

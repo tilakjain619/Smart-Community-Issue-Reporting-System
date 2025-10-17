@@ -17,7 +17,7 @@
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "express-fileupload": "^1.5.2",
-    "mongoose": "^8.19.0",
+    "mongoose": "^8.19.1",
     "node-appwrite": "^20.2.1",
     "nodemon": "^3.1.10"
   },

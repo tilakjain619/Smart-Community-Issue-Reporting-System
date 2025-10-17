@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard'
 import ReportIssue from './pages/ReportIssue'
 import CommunityFeed from './pages/CommunityFeed'
 import Landing from './pages/Landing'
+import AdminPanel from './pages/AdminPanel'
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/report" element={<ReportIssue/>} />
           <Route path="/about" element={<h1 className='text-3xl font-bold underline'>About Page</h1>} />
           <Route path="/community" element={<CommunityFeed />} />
+          <Route path="/admin" element={<AdminPanel />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

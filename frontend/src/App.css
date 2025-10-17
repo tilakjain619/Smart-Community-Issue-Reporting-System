@@ -9,6 +9,12 @@ body{
 .bg-yellowOrange{
     background-color: #ff9a47;
 }
+button{
+    cursor: pointer;
+}
+.leaflet-container {
+    z-index: 0;
+}
 /* *{
   border: 1px solid red !important;
 } */
