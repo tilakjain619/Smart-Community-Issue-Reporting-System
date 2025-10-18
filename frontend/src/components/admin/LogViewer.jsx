@@ -132,7 +132,7 @@ const LogViewer = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-wrap sm:flex-nowrap gap-2 justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-gray-800">System Logs</h2>
           <p className="text-gray-600">Monitor all system activities and user actions</p>

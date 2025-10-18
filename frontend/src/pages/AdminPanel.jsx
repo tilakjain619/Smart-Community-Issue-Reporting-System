@@ -4,10 +4,10 @@ import { getAllIssues } from '../api/Issues';
 import Stats from '../components/admin/Stats';
 import Loader from '../components/extras/Loader';
 import IssueChart from '../components/admin/IssueChart';
-import LogViewer from '../components/admin/LogViewer';
 import { BarChart3, Activity, FileText, ToolCase, HelpingHand } from 'lucide-react';
 import ManageIssues from './ManageIssues';
 import ManageOfficers from './ManageOfficers';
+import Logs from './Logs';
 
 const AdminPanel = () => {
   const { isAdmin, loading, getToken } = useAuth();
@@ -120,7 +120,7 @@ const AdminPanel = () => {
       )}
 
       {activeTab === 'logs' && (
-        <LogViewer />
+        <Logs />
       )}
       {
         activeTab === 'issues' && (<ManageIssues />)

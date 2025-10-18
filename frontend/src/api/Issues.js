@@ -69,3 +69,63 @@ export const getAllIssues = async (token) => {
         throw error;
     }
 };
+export const updateIssueStatus = async (issueId, newStatus, token) => {
+    try {
+        const res = await axios.patch(`${BASE_API_URL}/api/issues/${issueId}/status`, {
+            status: newStatus
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        return res.data;
+    } catch (error) {
+        console.error("Error updating issue status:", error.response?.data || error.message);
+        console.error("Full error:", error);
+        throw error;
+    }
+};
+
+// Get issues with filtering and pagination
+export const getFilteredIssues = async (filters = {}, token) => {
+    try {
+        const queryParams = new URLSearchParams();
+        
+        // Add filters to query parameters
+        Object.entries(filters).forEach(([key, value]) => {
+            if (value && value !== '') {
+                queryParams.append(key, value);
+            }
+        });
+
+        const url = `${BASE_API_URL}/api/issues${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+        
+        const res = await axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        return res.data;
+    } catch (error) {
+        console.error("Error fetching filtered issues:", error.response?.data || error.message);
+        throw error;
+    }
+};
+
+// Search issues by query
+export const searchIssues = async (query, token) => {
+    try {
+        const res = await axios.get(`${BASE_API_URL}/api/issues/search?query=${encodeURIComponent(query)}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        return res.data;
+    } catch (error) {
+        console.error("Error searching issues:", error.response?.data || error.message);
+        throw error;
+    }
+};

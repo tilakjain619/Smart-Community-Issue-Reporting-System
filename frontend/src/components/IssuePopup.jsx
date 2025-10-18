@@ -63,7 +63,7 @@ const IssuePopup = ({issue, setShowIssuePopup}) => {
         </button> */}
 
         {/* Header */}
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex flex-wrap sm:flex-nowrap items-start justify-between gap-3">
           <div>
             <span className="inline-block text-xs bg-amber-300 px-3 py-1 rounded-full text-zinc-700">
               {issue.category}
