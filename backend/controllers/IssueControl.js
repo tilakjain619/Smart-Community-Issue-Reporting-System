@@ -1,6 +1,7 @@
 const Issue = require('../models/Issue');
 const analyzeImage = require('../utils/analyseImage');
 const getLocation = require('../utils/getLocation');
+const { logAction } = require('./logControl');
 
 // Create a new issue
 const createIssue = async (req, res) => {
@@ -41,6 +42,17 @@ const createIssue = async (req, res) => {
             city: city,
             state: state,
             imageUrl: imageUrl || ''
+        });
+
+        // Log the issue creation
+        await logAction({
+            userType: 'user',
+            userId: userId,
+            action: 'Create Issue',
+            issueId: newIssue._id,
+            details: `New issue "${newIssue.title}" reported in ${city}, ${state}`,
+            severity: 'info',
+            req
         });
 
         res.status(201).json(newIssue);
@@ -135,8 +147,22 @@ const updateIssueStatus = async (req, res) => {
         if (!issue) {
             return res.status(404).json({ error: 'Issue not found' });
         }
+        
+        const previousStatus = issue.status;
         issue.status = status;
         await issue.save();
+
+        // Log the status update
+        await logAction({
+            userType: 'admin', // Assume admin is updating status
+            userId: req.body.userId || 'system',
+            action: 'Update Issue Status',
+            issueId: id,
+            details: `Issue status changed from "${previousStatus}" to "${status}"`,
+            severity: status === 'resolved' ? 'info' : 'warning',
+            req
+        });
+
         res.status(200).json(issue);
 
     } catch (error) {
@@ -146,10 +172,28 @@ const updateIssueStatus = async (req, res) => {
 const deleteIssue = async (req, res) => {
     try {
         const { id } = req.params;
-        const issue = await Issue.findByIdAndDelete(id);
+        const issue = await Issue.findById(id);
         if (!issue) {
             return res.status(404).json({ error: 'Issue not found' });
         }
+
+        // Store issue details before deletion for logging
+        const issueTitle = issue.title;
+        const issueCity = issue.city;
+        
+        await Issue.findByIdAndDelete(id);
+
+        // Log the deletion
+        await logAction({
+            userType: 'admin',
+            userId: req.body.userId || 'system',
+            action: 'Delete Issue',
+            issueId: id,
+            details: `Issue "${issueTitle}" deleted from ${issueCity}`,
+            severity: 'warning',
+            req
+        });
+
         res.status(200).json({ message: 'Issue deleted successfully' });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -184,14 +228,31 @@ const voteIssue = async (req, res) => {
         if (!userId) {
             return res.status(400).json({ error: 'User ID is required to vote' });
         }
+        
+        let voteAction;
         if (issue.voters.includes(userId)) {
             issue.votes = Math.max(0, issue.votes - 1);
             issue.voters = issue.voters.filter(voter => voter !== userId);
+            voteAction = 'removed vote from';
         } else {
             issue.votes = (issue.votes || 0) + 1;
             issue.voters.push(userId);
+            voteAction = 'voted on';
         }
+        
         await issue.save();
+
+        // Log the vote action
+        await logAction({
+            userType: 'user',
+            userId: userId,
+            action: 'Vote on Issue',
+            issueId: id,
+            details: `User ${voteAction} issue "${issue.title}" (Total votes: ${issue.votes})`,
+            severity: 'info',
+            req
+        });
+
         res.status(200).json(issue);
     } catch (error) {
         res.status(500).json({ error: error.message });

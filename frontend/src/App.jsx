@@ -8,23 +8,39 @@ import ReportIssue from './pages/ReportIssue'
 import CommunityFeed from './pages/CommunityFeed'
 import Landing from './pages/Landing'
 import AdminPanel from './pages/AdminPanel'
-
+import ManageIssues from './pages/ManageIssues'
+import ManageOfficers from './pages/ManageOfficers'
+import Logs from './pages/Logs'
+// import { useAuth } from './contexts/AuthContext'
 const App = () => {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Landing/>} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/report" element={<ReportIssue/>} />
-          <Route path="/about" element={<h1 className='text-3xl font-bold underline'>About Page</h1>} />
-          <Route path="/community" element={<CommunityFeed />} />
-          <Route path="/admin" element={<AdminPanel />} />
-        </Routes>
+        <InnerApp />
       </BrowserRouter>
     </AuthProvider>
   )
+}
+
+const InnerApp = () => {
+  // const { isAdmin } = useAuth();
+  // const admin = isAdmin();
+  return (
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Landing/>} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/report" element={<ReportIssue/>} />
+        <Route path="/about" element={<h1 className='text-3xl font-bold underline'>About Page</h1>} />
+        <Route path="/community" element={<CommunityFeed />} />
+        <Route path="/admin/dashboard" element={<AdminPanel />} />
+        <Route path="/admin/issues" element={<ManageIssues />} />
+        <Route path="/admin/officers" element={<ManageOfficers />} />
+        <Route path="/admin/logs" element={<Logs />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App

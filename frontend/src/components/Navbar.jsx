@@ -36,11 +36,17 @@ const Navbar = () => {
                     </svg>
                 </button>
                 <div className={`flex-col bg-[#ffffff88] backdrop-blur-md md:backdrop-blur-none z-20 md:flex-row ${isOpen ? 'flex' : 'hidden'} md:flex gap-3 items-center md:static absolute top-16 left-0 w-full md:bg-transparent md:w-auto z-10`}>
-                    <Link to={user ? '/dashboard' : '/'} className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>{user ? 'Dashboard' : 'Home'}</Link>
-                    <Link to="/community" className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>Community Feed</Link>
-                    <Link to="/report" className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>Report Issue</Link>
+                    {
+                        !admin && (
+                            <>
+                                <Link to={user ? '/dashboard' : '/'} className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>{user ? 'Dashboard' : 'Home'}</Link>
+                                <Link to="/community" className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>Community Feed</Link>
+                                <Link to="/report" className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>Report Issue</Link>
+                            </>
+                        )
+                    }
                     {admin && (
-                        <Link to="/admin" className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>Admin Panel</Link>
+                        <Link to="/admin/dashboard" className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>Dashboard</Link>
                     )}
                     {/* User section */}
                     <div className="hidden md:flex items-center px-1 py-2 md:py-0">
@@ -49,12 +55,12 @@ const Navbar = () => {
                                 {/* <UserButton /> */}
                                 <SignOutButton style={{ cursor: 'pointer' }} />
                             </div>
-                            </SignedIn>
-                            <SignedOut>
-                                <SignInButton mode='modal' style={{ cursor: 'pointer' }} />
-                            </SignedOut>
-                            </div>
-                            {/* User section for mobile */}
+                        </SignedIn>
+                        <SignedOut>
+                            <SignInButton mode='modal' style={{ cursor: 'pointer' }} />
+                        </SignedOut>
+                    </div>
+                    {/* User section for mobile */}
                     <div className={`md:hidden ${isOpen ? 'block' : 'hidden'} px-1 py-2 pb-3 md:py-0`}>
                         <SignedIn>
                             <div className='flex items-center gap-2'>
@@ -63,7 +69,7 @@ const Navbar = () => {
                             </div>
                         </SignedIn>
                         <SignedOut>
-                            <SignInButton mode='modal'/>
+                            <SignInButton mode='modal' />
                         </SignedOut>
                     </div>
                 </div>

@@ -28,6 +28,7 @@ app.get('/', (req, res) => {
 
 // Use Routes
 app.use('/api', require('./routes/issue'));
+app.use('/api', require('./routes/logs'));
 app.use("/api", require('./routes/upload'));
 
 app.listen(port, () => {
