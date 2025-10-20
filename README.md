@@ -23,7 +23,7 @@ A full-stack web application for citizens to report community issues with GPS lo
 
 ### System Architecture
 
-![System Architecture Diagram](./docs/jagruk-diagram.png)
+![System Architecture Diagram](./docs/Jagruk_Diagram.png)
 
 *Overview of the Smart Community Issue Reporting System's technical architecture, showing the React frontend, Node.js backend, MongoDB database, and external service integrations.*
 
