@@ -30,6 +30,7 @@ app.get('/', (req, res) => {
 app.use('/api', require('./routes/issue'));
 app.use('/api', require('./routes/logs'));
 app.use("/api", require('./routes/upload'));
+app.use('/api', require('./routes/officer'));
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

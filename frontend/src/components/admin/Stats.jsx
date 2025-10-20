@@ -18,8 +18,8 @@ const Stats = ({ issues }) => {
             <span className="text-4xl font-extrabold text-zinc-900">{issues.filter(issue => issue.status === 'pending').length}</span>
           </div>
           <div className="bg-gradient-to-br from-yellow-200 to-yellow-300 shadow-lg px-6 py-6 rounded-xl flex flex-col">
-            <h2 className="text-base font-semibold text-zinc-700 mb-2">In-Progress</h2>
-            <span className="text-4xl font-extrabold text-zinc-900">{issues.filter(issue => issue.status === 'in-progress').length}</span>
+            <h2 className="text-base font-semibold text-zinc-700 mb-2">In Progress</h2>
+            <span className="text-4xl font-extrabold text-zinc-900">{issues.filter(issue => issue.status === 'in progress').length}</span>
           </div>
         </div>
       </section>

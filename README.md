@@ -2,10 +2,6 @@
 
 A full-stack web application for citizens to report community issues with GPS location, AI categorization, and real-time admin management. Built for smart cities and civic engagement.
 
-## System Architecture
-
-![System Architecture Diagram](./docs/architecture-diagram.png)
-
 ## Features
 
 - **Smart Reporting**: GPS-tagged issue reporting with AI-powered categorization
