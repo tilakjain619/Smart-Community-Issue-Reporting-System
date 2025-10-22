@@ -3,7 +3,7 @@ import { getUsersIssues } from '../api/Issues'
 import { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext';
 import { SignedIn, SignedOut, SignInButton } from '../components/AuthComponents';
-import IssuePopup from '../components/issuePopup'
+import IssuePopup from '../components/IssuePopup'
 import Loader from '../components/extras/Loader'
 import MapUI from '../components/MapUI'
 
