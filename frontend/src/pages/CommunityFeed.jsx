@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import Loader from '../components/extras/Loader';
 import MapUI from '../components/MapUI';
-import IssuePopup from '../components/issuePopup';
+import IssuePopup from '../components/IssuePopup';
 import { Search, Filter, MapPin, Calendar, TrendingUp, X, ChevronDown } from 'lucide-react';
 
 const CommunityFeed = () => {

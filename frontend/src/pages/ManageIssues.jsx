@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getAllIssues, updateIssueStatus, getFilteredIssues, searchIssues } from '../api/Issues'
-import IssuePopup from '../components/issuePopup.jsx'
+import IssuePopup from '../components/IssuePopup.jsx'
 import { useAuth } from '../contexts/AuthContext';
 import { Search, Filter, X } from 'lucide-react';
 
