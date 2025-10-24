@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { SignedIn, SignedOut, SignInButton, UserButton, SignOutButton } from '../components/AuthComponents'
 import { useAuth } from '../contexts/AuthContext'
+import NotificationBell from './NotificationBell'
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -42,6 +43,9 @@ const Navbar = () => {
                                 <Link to={user ? '/dashboard' : '/'} className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>{user ? 'Dashboard' : 'Home'}</Link>
                                 <Link to="/community" className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>Community Feed</Link>
                                 <Link to="/report" className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>Report Issue</Link>
+                                {user && (
+                                    <Link to="/notifications" className="px-1 py-2 md:py-0 hover:opacity-60" onClick={() => setIsOpen(false)}>Notifications</Link>
+                                )}
                             </>
                         )
                     }
@@ -52,6 +56,7 @@ const Navbar = () => {
                     <div className="hidden md:flex items-center px-1 py-2 md:py-0">
                         <SignedIn>
                             <div className='flex items-center gap-2'>
+                                <NotificationBell />
                                 {/* <UserButton /> */}
                                 <SignOutButton style={{ cursor: 'pointer' }} />
                             </div>
@@ -64,6 +69,7 @@ const Navbar = () => {
                     <div className={`md:hidden ${isOpen ? 'block' : 'hidden'} px-1 py-2 pb-3 md:py-0`}>
                         <SignedIn>
                             <div className='flex items-center gap-2'>
+                                <NotificationBell />
                                 {/* <UserButton /> */}
                                 <SignOutButton />
                             </div>

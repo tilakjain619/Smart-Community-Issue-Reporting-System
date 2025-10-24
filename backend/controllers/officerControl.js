@@ -1,4 +1,6 @@
 const Officer = require('../models/Officer');
+const Issue = require('../models/Issue');
+const { notifyOfficerAssignment } = require('../utils/notificationUtils');
 
 const createOfficer = async (req, res) => {
     try {
@@ -99,9 +101,52 @@ const deleteOfficer = async (req, res) => {
     }
 };
 
+// Assign an officer to an issue
+const assignOfficerToIssue = async (req, res) => {
+    try {
+        const { issueId, officerId } = req.body;
+        
+        if (!issueId || !officerId) {
+            return res.status(400).json({ message: 'Issue ID and Officer ID are required' });
+        }
+
+        // Check if issue exists
+        const issue = await Issue.findById(issueId);
+        if (!issue) {
+            return res.status(404).json({ message: 'Issue not found' });
+        }
+
+        // Check if officer exists
+        const officer = await Officer.findById(officerId);
+        if (!officer) {
+            return res.status(404).json({ message: 'Officer not found' });
+        }
+
+        // Update issue with assigned officer
+        issue.assignedOfficer = officerId;
+        await issue.save();
+
+        // Send notification about officer assignment
+        await notifyOfficerAssignment(issue, officerId);
+
+        res.status(200).json({ 
+            message: 'Officer assigned to issue successfully', 
+            issue,
+            officer: {
+                id: officer._id,
+                name: officer.fullName,
+                email: officer.email
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Error assigning officer to issue', error });
+    }
+};
+
 module.exports = {
     createOfficer,
     getOfficers,
     updateOfficer,
-    deleteOfficer
+    deleteOfficer,
+    assignOfficerToIssue
 };
