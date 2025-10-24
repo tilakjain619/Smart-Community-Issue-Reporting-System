@@ -2,7 +2,6 @@ import './App.css'
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext'
-import NotFound from './pages/NotFound'
 import Navbar from './components/Navbar'
 import Dashboard from './pages/Dashboard'
 import ReportIssue from './pages/ReportIssue'
@@ -39,7 +38,6 @@ const InnerApp = () => {
         <Route path="/admin/issues" element={<ManageIssues />} />
         <Route path="/admin/officers" element={<ManageOfficers />} />
         <Route path="/admin/logs" element={<Logs />} />
-         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );
