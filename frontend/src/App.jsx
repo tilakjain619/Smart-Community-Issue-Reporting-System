@@ -12,7 +12,7 @@ import AdminPanel from './pages/AdminPanel'
 import ManageIssues from './pages/ManageIssues'
 import ManageOfficers from './pages/ManageOfficers'
 import Logs from './pages/Logs'
-import Notifications from './pages/Notifications'
+import NotFound from './pages/NotFound'
 // import { useAuth } from './contexts/AuthContext'
 const App = () => {
   return (
@@ -43,6 +43,7 @@ const InnerApp = () => {
         <Route path="/admin/issues" element={<ManageIssues />} />
         <Route path="/admin/officers" element={<ManageOfficers />} />
         <Route path="/admin/logs" element={<Logs />} />
+        <Route path="/*" element={<NotFound />} /> 
       </Routes>
     </>
   );
