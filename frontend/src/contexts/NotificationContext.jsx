@@ -116,7 +116,7 @@ export const NotificationProvider = ({ children }) => {
             setNotifications([]);
             setUnreadCount(0);
         }
-    }, [user, token]);
+    }, [user, token, fetchNotifications]);
 
     const value = {
         notifications,
