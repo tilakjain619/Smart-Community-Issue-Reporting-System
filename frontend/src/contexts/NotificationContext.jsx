@@ -106,7 +106,7 @@ export const NotificationProvider = ({ children }) => {
         }, 30000); // 30 seconds
 
         return () => clearInterval(interval);
-    }, [user, token]);
+    }, [user, token, fetchUnreadCount]);
 
     // Initial fetch when user logs in
     useEffect(() => {
