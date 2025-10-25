@@ -15,7 +15,7 @@ const NotificationsPage = () => {
         if (user) {
             fetchNotifications(currentPage, limit, showUnreadOnly);
         }
-    }, [user, currentPage, showUnreadOnly]);
+    }, [user, currentPage, showUnreadOnly, fetchNotifications, limit]);
 
     // Format notification time
     const formatTime = (createdAt) => {
