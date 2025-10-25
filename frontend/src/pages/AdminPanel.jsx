@@ -4,7 +4,8 @@ import { getAllIssues } from '../api/Issues';
 import Stats from '../components/admin/Stats';
 import Loader from '../components/extras/Loader';
 import IssueChart from '../components/admin/IssueChart';
-import { BarChart3, Activity, FileText, ToolCase, HelpingHand } from 'lucide-react';
+import NotificationTest from '../components/NotificationTest';
+import { BarChart3, Activity, FileText, ToolCase, HelpingHand, Bell } from 'lucide-react';
 import ManageIssues from './ManageIssues';
 import ManageOfficers from './ManageOfficers';
 import Logs from './Logs';
@@ -97,6 +98,19 @@ const AdminPanel = () => {
                 Manage Officers
               </div>
             </button>
+            <button
+              onClick={() => setActiveTab('notifications')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'notifications'
+                  ? 'border-orange-500 text-orange-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <div className="flex items-center whitespace-nowrap gap-2">
+                <Bell className="w-4 h-4" />
+                Test Notifications
+              </div>
+            </button>
           </nav>
         </div>
       </div>
@@ -127,6 +141,9 @@ const AdminPanel = () => {
       }
       {
         activeTab === 'officers' && (<ManageOfficers />)
+      }
+      {
+        activeTab === 'notifications' && (<NotificationTest />)
       }
     </div>
   )

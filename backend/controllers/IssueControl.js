@@ -2,6 +2,7 @@ const Issue = require('../models/Issue');
 const analyzeImage = require('../utils/analyseImage');
 const getLocation = require('../utils/getLocation');
 const { logAction } = require('./logControl');
+const { notifyIssueCreated, notifyIssueStatusUpdate, notifyVoteReceived } = require('../utils/notificationUtils');
 
 // Create a new issue
 const createIssue = async (req, res) => {
@@ -54,6 +55,9 @@ const createIssue = async (req, res) => {
             severity: 'info',
             req
         });
+
+        // Send notification about new issue
+        await notifyIssueCreated(newIssue, userId);
 
         res.status(201).json(newIssue);
     } catch (error) {
@@ -163,6 +167,9 @@ const updateIssueStatus = async (req, res) => {
             req
         });
 
+        // Send notification about status update
+        await notifyIssueStatusUpdate(issue, previousStatus, req.body.userId || 'system');
+
         res.status(200).json(issue);
 
     } catch (error) {
@@ -252,6 +259,9 @@ const voteIssue = async (req, res) => {
             severity: 'info',
             req
         });
+
+        // Send notification about vote
+        await notifyVoteReceived(issue, userId);
 
         res.status(200).json(issue);
     } catch (error) {

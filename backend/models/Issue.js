@@ -19,6 +19,11 @@ const issueSchema = new mongoose.Schema({
   state: { type: String, trim: true },
   votes: { type: Number, default: 0 },
   voters: { type: Array, default: [] },
+  assignedOfficer: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Officer',
+    required: false
+  },
 }, { timestamps: true }); // createdAt & updatedAt
 
 module.exports = mongoose.model('Issue', issueSchema);

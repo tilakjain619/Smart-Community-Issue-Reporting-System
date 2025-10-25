@@ -2,6 +2,7 @@ import './App.css'
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext'
+import { NotificationProvider } from './contexts/NotificationContext'
 import Navbar from './components/Navbar'
 import Dashboard from './pages/Dashboard'
 import ReportIssue from './pages/ReportIssue'
@@ -16,9 +17,11 @@ import NotFound from './pages/NotFound'
 const App = () => {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <InnerApp />
-      </BrowserRouter>
+      <NotificationProvider>
+        <BrowserRouter>
+          <InnerApp />
+        </BrowserRouter>
+      </NotificationProvider>
     </AuthProvider>
   )
 }
@@ -35,6 +38,7 @@ const InnerApp = () => {
         <Route path="/report" element={<ReportIssue/>} />
         <Route path="/about" element={<h1 className='text-3xl font-bold underline'>About Page</h1>} />
         <Route path="/community" element={<CommunityFeed />} />
+        <Route path="/notifications" element={<Notifications />} />
         <Route path="/admin/dashboard" element={<AdminPanel />} />
         <Route path="/admin/issues" element={<ManageIssues />} />
         <Route path="/admin/officers" element={<ManageOfficers />} />
